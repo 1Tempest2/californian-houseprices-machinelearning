@@ -36,7 +36,7 @@
   "keyToString": {
     "Python.linear-regression.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "visualizing-data",
+    "git-widget-placeholder": "training-model",
     "last_opened_file_path": "C:/Users/Botond/PycharmProjects/californian-houseprices-machinelearning/Data",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -112,6 +112,6 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/californian_houseprices_machinelearning$linear_regression.coverage" NAME="linear-regression Coverage Results" MODIFIED="1738343281190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/californian_houseprices_machinelearning$linear_regression.coverage" NAME="linear-regression Coverage Results" MODIFIED="1738344941926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
