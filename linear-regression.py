@@ -16,7 +16,7 @@ data = data.dropna()
 Q1 = data['median_house_value'].quantile(0.25)
 Q3 = data['median_house_value'].quantile(0.75)
 IQR = Q3 - Q1
-lower_bound = Q1 - 0.5 * IQR
+lower_bound = Q1 - 1.5 * IQR
 upper_bound = Q3 + 1.5 * IQR
 data = data[(data['median_house_value'] >= lower_bound) & (data['median_house_value'] <= upper_bound)]
 
@@ -69,4 +69,44 @@ X_train_const = sm.add_constant(X_train)
 model_fitted = sm.OLS(y_train, X_train_const).fit()
 
 # Modell eredményeinek kiírása
-print(model_fitted.summary())
+# print(model_fitted.summary())
+
+# trying to predict
+X_test_const = sm.add_constant(X_test)
+
+# Making predictions on the test set
+test_predictions = model_fitted.predict(X_test_const)
+# print(test_predictions) getting the predictions
+
+# we can notice that we have a huge standard error which means that one of the requirements of the linear regression was broken
+# we shall check all of them one-by-one
+# first linearity
+# Scatter plot for observed vs predicted values on test data
+plt.scatter(y_test, test_predictions, color = "forestgreen")
+plt.xlabel('Observed Values')
+plt.ylabel('Predicted Values')
+plt.title('Observed vs Predicted Values on Test Data')
+plt.plot(y_test, y_test, color='darkred')  # line for perfect prediction (true values)
+# plt.show()
+
+# we then check if the sample is really random
+# Calculate the mean of the residuals
+mean_residuals = np.mean(model_fitted.resid)
+# print(f"The mean of the residuals is {np.round(mean_residuals,2)}")
+# another way to check the second requirement is to use a plot the following way:
+# Plotting the residuals
+plt.scatter(model_fitted.fittedvalues, model_fitted.resid, color = "forestgreen")
+plt.axhline(y=0, color='red', linestyle='--')
+plt.xlabel('Fitted Values')
+plt.ylabel('Residuals')
+plt.title('Residuals vs Fitted Values')
+# plt.show()
+# a harmadik requirement a exogeneity:
+# Calculate the residuals
+residuals = model_fitted.resid
+
+# Check for correlation between residuals and each predictor
+for column in X_train.columns:
+    corr_coefficient = np.corrcoef(X_train[column], residuals)[0, 1]
+    #print(f'Correlation between residuals and {column}: {np.round(corr_coefficient,2)}')
+# 4. requirement homoskedicity
