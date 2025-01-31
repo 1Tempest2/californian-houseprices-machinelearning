@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import statsmodels.api as sm
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+from math import sqrt
 
 # Adatok beolvasása
 path = "C:/Users/Botond/PycharmProjects/californian-houseprices-machinelearning/Data/housing.csv/housing.csv"
@@ -109,4 +113,25 @@ residuals = model_fitted.resid
 for column in X_train.columns:
     corr_coefficient = np.corrcoef(X_train[column], residuals)[0, 1]
     #print(f'Correlation between residuals and {column}: {np.round(corr_coefficient,2)}')
-# 4. requirement homoskedicity
+# standardizing the data
+scaler = StandardScaler()
+
+# Fit the scaler on the training data and transform it
+X_train_scaled = scaler.fit_transform(X_train)
+
+# Apply the same transformation to the test data
+X_test_scaled = scaler.transform(X_test)
+# Create and fit the model
+lr = LinearRegression()
+lr.fit(X_train_scaled, y_train)
+
+# Make predictions on the scaled test data
+y_pred = lr.predict(X_test_scaled)
+
+# Calculate MSE and RMSE
+mse = mean_squared_error(y_test, y_pred)
+rmse = sqrt(mse)
+
+# Output the performance metrics
+print(f'RMSE on Test Set: {rmse}')
+print(y_pred)
