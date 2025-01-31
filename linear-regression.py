@@ -26,17 +26,17 @@ cleaned_data = data.dropna()
 #plt.show()
 
 Q1 = cleaned_data['median_house_value'].quantile(0.25)
-print("Q1:", Q1)
+#print("Q1:", Q1)
 Q3 = cleaned_data['median_house_value'].quantile(0.75)
-print("Q3", Q3)
+#print("Q3", Q3)
 IQR = Q3 - Q1
-print("IQR:", IQR)
+#print("IQR:", IQR)
 
 
 # Define the bounds for the outliers
 lower_bound = Q1 - 0.5 * IQR
 upper_bound = Q3 + 1.5 * IQR
-print(lower_bound, upper_bound)
+#print(lower_bound, upper_bound)
 # Remove outliers
 data_no_outliers_1 = cleaned_data[(cleaned_data['median_house_value'] >= lower_bound) & (cleaned_data['median_house_value'] <= upper_bound)]
 
@@ -65,3 +65,18 @@ data_no_outliers_2 = data_no_outliers_1[(data_no_outliers_1['median_income'] >= 
 #print("Data shape without outliers:", data_no_outliers_2.shape)
 data = data_no_outliers_2 # just for simplicity
 # heatmap
+data = data.drop(columns=["total_bedrooms"])
+
+
+# Unique value count for categorical data
+for column in ['ocean_proximity']:  # Add other categorical columns if any
+    print(f"Unique values in {column}:", data[column].unique())
+ocean_proximity_dummies = pd.get_dummies(data['ocean_proximity'], prefix='ocean_proximity')
+data = pd.concat([data.drop("ocean_proximity", axis=1), ocean_proximity_dummies], axis=1)
+data = data.drop("ocean_proximity_ISLAND", axis=1)
+plt.figure(figsize=(16, 10))
+sns.heatmap(data.corr(), annot=True, cmap='Greens')
+plt.title('Correlation Heatmap of Housing Data')
+#plt.show()
+
+# training the model
